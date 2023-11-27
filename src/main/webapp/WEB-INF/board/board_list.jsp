@@ -1,7 +1,7 @@
-﻿<%@page import="kr.or.bit.utils.ThePager"%>
-<%@page import="kr.or.bit.dto.Board"%>
+﻿<%@page import="kr.or.kosa.utils.ThePager"%>
+<%@page import="kr.or.kosa.dto.Board"%>
 <%@page import="java.util.List"%>
-<%@page import="kr.or.bit.service.BoardService"%>
+<%@page import="kr.or.kosa.service.BoardService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	

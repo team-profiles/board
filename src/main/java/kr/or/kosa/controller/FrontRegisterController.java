@@ -37,7 +37,7 @@ public class FrontRegisterController extends HttpServlet {
     	
     	//3. 요청 서비스 판단 (command 통해서) 문자열 비교
     	//3.1 판단에 의해서 서비스 동작 (DB작업 , 암호화 , ....)
-//    	String viewpage="";
+    	String viewpage="";
     	
 //    	Action action = null;
 //    	ActionForward forward = null;
@@ -79,6 +79,8 @@ public class FrontRegisterController extends HttpServlet {
 //    	}
 
 		// 데이터 전달(forward)
+    	 dis = request.getRequestDispatcher(viewpage);
+
 		dis.forward(request, response);
     }
 		
