@@ -152,7 +152,7 @@ public class FrontRegisterController extends HttpServlet {
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-    		String idx= request.getParameter("idx"); //글번호 받기
+
     		try {
     			//글 번호를 가지고 오지  않았을 경우 예외처리
         		if(idx == null || idx.trim().equals("")){
@@ -212,8 +212,12 @@ public class FrontRegisterController extends HttpServlet {
       		
       		viewpage="/WEB-INF/board/board_edit.jsp";
     	}
+	 
+	    else if (urlcommand.equals("/boardDelete.do")) {
+	    	viewpage="/WEB-INF/board/board_delete.jsp";
+	    }
     	 
-      	else if (urlcommand.equals("/boardDelete.do")) {
+      	else if (urlcommand.equals("/boardDeleteOk.do")) {
 
       		String idx = request.getParameter("idx");
       		String pwd = request.getParameter("pwd");
@@ -224,13 +228,16 @@ public class FrontRegisterController extends HttpServlet {
 				int result =service.board_Delete(idx, pwd);
 				if(result > 0){
 					msg="delete success";
+					System.out.println("success");
 				}else{
 					msg="delete fail";
+					System.out.println("fail");
 				}
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
       		msg="delete success";
+      		request.setAttribute("board_msg", msg);
       		viewpage = "/WEB-INF/board/board_list.jsp";
 
       	} 

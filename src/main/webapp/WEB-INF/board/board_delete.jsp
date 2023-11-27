@@ -50,13 +50,14 @@
         <c:choose>
             <c:when test="${true}"></c:when>
             <c:otherwise>
-                <% return; %>
+                <%-- <% return; %> --%>
+                <c:out value="" />
             </c:otherwise>
         </c:choose>
     </c:if>
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
-			<form name="del" method="POST" action="${pageContext.request.contextPath}/boardDelete.do">
+			<form name="del" method="GET" action="${pageContext.request.contextPath}/boardDeleteOk.do?idx=${idx}&pwd=${pwd}">
 				<center>
 					비밀번호 :
 					<input type="password" name="pwd">
