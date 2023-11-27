@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 import kr.or.kosa.dto.Board;
 import kr.or.kosa.dto.Reply;
+import kr.or.kosa.utils.ConnectionHelper;
 
 //CRUD 함수 > ConnectionPool > 함수단위 연결 ,받환 
 public class BoardDao {
@@ -31,11 +32,11 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		int row = 0;
 		try {
-			conn = ds.getConnection();
+			conn = ConnectionHelper.getConnection("oracle");
 			String sql="insert into jspboard(idx, writer, pwd, subject, content, email, homepage, writedate, readnum,filename,filesize,refer)"+ 
 					   " values(jspboard_idx.nextval,?,?,?,?,?,?,sysdate,0,?,0,?)";
 			pstmt = conn.prepareStatement(sql);
-			
+			System.out.println("데이터 삽입");
 			pstmt.setString(1, boarddata.getWriter());
 			pstmt.setString(2, boarddata.getPwd());
 			pstmt.setString(3, boarddata.getSubject());
@@ -56,7 +57,7 @@ public class BoardDao {
 			row = pstmt.executeUpdate();
 			
 		}catch(Exception e) {
-			
+			System.out.println(e.getMessage());
 		}finally {
 			try {
 				pstmt.close();
