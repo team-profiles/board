@@ -1,5 +1,4 @@
 ﻿<%@page import="kr.or.kosa.utils.ThePager"%>
-<%@page import="kr.or.kosa.utils.ThePager"%>
 <%@page import="kr.or.kosa.dto.Board"%>
 <%@page import="java.util.List"%>
 <%@page import="kr.or.kosa.service.BoardService"%>
