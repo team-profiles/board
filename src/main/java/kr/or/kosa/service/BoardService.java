@@ -5,7 +5,7 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 
-import kr.or.kos.dao.BoardDao;
+import kr.or.kosa.dao.BoardDao;
 import kr.or.kosa.dto.Board;
 import kr.or.kosa.dto.Reply;
 

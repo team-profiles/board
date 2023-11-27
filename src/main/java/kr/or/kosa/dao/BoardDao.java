@@ -26,7 +26,7 @@ public class BoardDao {
 	}
 	
 	//글쓰기(원본글) *
-	public int writeok(BoardDao boarddata) {
+	public int writeok(Board boarddata) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int row = 0;
