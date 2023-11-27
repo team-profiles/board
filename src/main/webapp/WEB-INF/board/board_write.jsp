@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>게시판 글쓰기</title>
 	<script type="text/javascript" src="../ckeditor/ckeditor.js" ></script>
-	<link rel="Stylesheet" href="../style/default.css" />
+	<link rel="Stylesheet" href="style/default.css" />
 	<SCRIPT type="text/javascript">
 function check(){
     if(!bbs.subject.value){
