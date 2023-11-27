@@ -156,10 +156,12 @@ public class FrontRegisterController extends HttpServlet {
     		
     	} 
       	else if (urlcommand.equals("/boardEdit.do")) {
-      		
-      		
       		viewpage="/WEB-INF/board/board_edit.jsp";
     	}
+      	else if (urlcommand.equals("/boardEditOk.do")) {
+      		viewpage="/WEB-INF/board/board_editok.jsp";
+      		
+      	}
     	 
       	else if (urlcommand.equals("/boardDelete.do")) {
       		

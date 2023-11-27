@@ -641,6 +641,7 @@ public class BoardDao {
 		String content= boarddata.getParameter("content");
 		String filename= boarddata.getParameter("filename");
 		
+		System.out.println("boardEdit");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
