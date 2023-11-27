@@ -1,31 +1,33 @@
 package kr.or.kosa.dto;
+
 import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public class Board {  //SELECT * FROM jspboard
-	private int idx;  //jspboard 컬럼명과 동일
+public class Board { // SELECT * FROM jspboard
+	private int idx; // jspboard 컬럼명과 동일
 	private String writer;
 	private String pwd;
 	private String subject;
 	private String content;
-	//not null (필수 입력)
-	private Date writedate; //default SYSDATE
-	private int readnum;    //default 0
-	
+	// not null (필수 입력)
+	private Date writedate; // default SYSDATE
+	private int readnum; // default 0
+
 	private String filename;
 	private int filesize;
 	private String homepage;
 	private String email;
-	//부가 입력 사항
-	
-	//계층형 (답글)
-	private int refer;//글의 묶음
-	private int depth;//글의 들여쓰기
-	private int step;//글의 순서
+	// 부가 입력 사항
 
-	public Board() {}
+	// 계층형 (답글)
+	private int refer;// 글의 묶음
+	private int depth;// 글의 들여쓰기
+	private int step;// 글의 순서
+
+	public Board() {
+	}
 
 	public Board(int idx, String writer, String pwd, String subject, String content, Date writedate, int readnum,
 			String filename, int filesize, String homepage, String email, int refer, int depth, int step) {
@@ -44,6 +46,17 @@ public class Board {  //SELECT * FROM jspboard
 		this.refer = refer;
 		this.depth = depth;
 		this.step = step;
+	}
+
+	public Board(String writer, String pwd, String subject, String content, String filename, String homepage,
+			String email) {
+		this.writer = writer;
+		this.pwd = pwd;
+		this.subject = subject;
+		this.content = content;
+		this.filename = filename;
+		this.homepage = homepage;
+		this.email = email;
 	}
 
 	public int getIdx() {
@@ -158,7 +171,7 @@ public class Board {  //SELECT * FROM jspboard
 		this.step = step;
 	}
 
-	//필요에 따라서 구현
+	// 필요에 따라서 구현
 	@Override
 	public String toString() {
 		return "board [idx=" + idx + ", writer=" + writer + ", pwd=" + pwd + ", subject=" + subject + ", content="
@@ -166,18 +179,5 @@ public class Board {  //SELECT * FROM jspboard
 				+ ", filesize=" + filesize + ", homepage=" + homepage + ", email=" + email + ", refer=" + refer
 				+ ", depth=" + depth + ", step=" + step + "]";
 	}
-	
-	
-	
-	
+
 }
-
-
-
-
-
-
-
-
-
-
