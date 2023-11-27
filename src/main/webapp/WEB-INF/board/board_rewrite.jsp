@@ -24,7 +24,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-	<link rel="Stylesheet" 	href="/style/default.css" />
+	<link rel="Stylesheet" 	href="style/default.css" />
 	<SCRIPT type="text/javascript">
 	function boardcheck() {
 		if (!bbs.subject.value) {
