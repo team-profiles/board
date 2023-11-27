@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>게시판 글쓰기</title>
 	<script type="text/javascript" src="../ckeditor/ckeditor.js" ></script>
-	<link rel="Stylesheet" href="../style/default.css" />
+	<link rel="Stylesheet" href="style/default.css" />
 	<SCRIPT type="text/javascript">
 function check(){
     if(!bbs.subject.value){
@@ -44,7 +44,7 @@ function check(){
     <div id="pageContainer">
         <div style="padding-top: 25px; text-align: center">
             <!-- form 시작 ---------->
-            <form name="bbs" action="board_writeok.jsp" method="POST">
+            <form name="bbs" action="/boardwriteok.do" method="POST">
                 <table width="95%" border="2" align="center">
                     <tr>
                         <td width="20%" align="center">제목</td>

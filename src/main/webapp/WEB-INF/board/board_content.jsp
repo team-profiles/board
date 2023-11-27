@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>board_content</title>
 <link rel="Stylesheet"
-	href="<%=request.getContextPath()%>/style/default.css" />
+	href="style/default.css" />
 </head>
 <body>
 	<%
