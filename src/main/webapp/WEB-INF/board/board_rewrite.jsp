@@ -24,7 +24,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-	<link rel="Stylesheet" 	href="<%=request.getContextPath()%>/style/default.css" />
+	<link rel="Stylesheet" 	href="/style/default.css" />
 	<SCRIPT type="text/javascript">
 	function boardcheck() {
 		if (!bbs.subject.value) {
@@ -61,7 +61,7 @@
 	%>
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
-			<form name="bbs" action="board_rewriteok.jsp" method="POST">
+			<form name="bbs" action="/boardRewriteOk.do" method="POST">
 			
 				<input type="hidden" name="cp" value="<%= cpage %>" /> 
 				<input type="hidden" name="ps" value="<%= pagesize %>" /> 
@@ -117,7 +117,7 @@
 						<td colspan="2" align="center">
 						<input type="button" 	value="글쓰기" onclick="boardcheck();" /> 
 						<input type="reset" 	value="다시쓰기" />
-						<a href="<%=request.getContextPath()%>/board/board_list.jsp">HOME</a>
+						<a href="/boardList.do">HOME</a>
 						</td>
 						
 					</tr>
