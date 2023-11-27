@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -106,8 +107,25 @@ public class FrontRegisterController extends HttpServlet {
     	}
     	 
       	else if (urlcommand.equals("/boardDelete.do")) {
+      		String idx = request.getParameter("idx");
+      		String pwd = request.getParameter("pwd");
+      		String msg="";
+			String url="";
+      		BoardService service = BoardService.getInBoardService();
+      		try {
+				int result =service.board_Delete(idx, pwd);
+				if(result > 0){
+					msg="delete success";
+				}else{
+					msg="delete fail";
+				}
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+      		msg="delete success";
+      		viewpage = "/WEB-INF/board/board_list.jsp";
 
-   	} 
+      	} 
       	else if(urlcommand.equals("/boardRewrite.do")) {
       			
       	}
