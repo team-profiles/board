@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.or.kosa.action.Action;
-import kr.or.kosa.action.ActionForward;
 import kr.or.kosa.dto.Board;
 import kr.or.kosa.service.BoardService;
 import kr.or.kosa.utils.ThePager;
@@ -106,7 +104,7 @@ public class FrontRegisterController extends HttpServlet {
       	else if (urlcommand.equals("/boardEdit.do")) {
 
     	}
-    	
+    	 
       	else if (urlcommand.equals("/boardDelete.do")) {
 
    	} 
@@ -155,6 +153,8 @@ public class FrontRegisterController extends HttpServlet {
 
     	RequestDispatcher dis = request.getRequestDispatcher(viewpage);
 		// 데이터 전달(forward)
+    	 dis = request.getRequestDispatcher(viewpage);
+
 		dis.forward(request, response);
     }
 		
