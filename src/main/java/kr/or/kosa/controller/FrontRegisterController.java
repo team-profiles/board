@@ -114,24 +114,6 @@ public class FrontRegisterController extends HttpServlet {
 			dis.forward(request, response);
 
 		}
-
-		else if (urlcommand.equals("/boardContent.do")) {
-
-		} else if (urlcommand.equals("/boardEdit.do")) {
-
-		}
-
-		else if (urlcommand.equals("/boardDelete.do")) {
-
-		} else if (urlcommand.equals("/boardRewrite.do")) {
-
-		}
-
-		else if (urlcommand.equals("/boardRewriteOk.do")) {
-    		
-    		viewpage="/WEB-INF/board/board_list.jsp";
-    		
-    	}
     	
     	else if(urlcommand.equals("/boardContent.do")) {
     		String idx= request.getParameter("idx"); //글번호 받기
