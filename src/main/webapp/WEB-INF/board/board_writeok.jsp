@@ -1,4 +1,4 @@
-﻿<%@page import="kr.or.kosa.service.BoardService"%>
+<%-- <%@page import="kr.or.kosa.service.BoardService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -61,3 +61,4 @@
 
 
 
+ --%>
