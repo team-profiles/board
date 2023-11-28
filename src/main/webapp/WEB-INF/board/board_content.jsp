@@ -55,7 +55,6 @@
 						<c:if test="${board.content != null}">
 							${fn:replace(board.content, '\\n', '<br>')}
 						</c:if>
-						${board.content}
 						</td>
 					</tr>
 					<tr>
