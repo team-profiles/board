@@ -2,6 +2,7 @@ package kr.or.kosa.controller;
 
 import java.io.IOException;
 import java.util.List;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.kosa.action.Action;
 import kr.or.kosa.action.ActionForward;
 import kr.or.kosa.dto.Board;
+import kr.or.kosa.dto.Reply;
 import kr.or.kosa.service.BoardService;
 import kr.or.kosa.utils.ThePager;
 
@@ -39,24 +41,6 @@ public class FrontRegisterController extends HttpServlet {
 
 		Action action = null;
 		ActionForward forward = null;
-
-		Board board = new Board();
-
-		String writer = request.getParameter("writer");
-		String pwd = request.getParameter("pwd");
-		String subject = request.getParameter("subject");
-		String content = request.getParameter("content");
-		String email = request.getParameter("email");
-		String homepage = request.getParameter("homepage");
-		String filename = request.getParameter("filename");
-		
-		board.setSubject(subject);
-		board.setWriter(writer);
-		board.setEmail(email);
-		board.setHomepage(homepage);
-		board.setContent(content);
-		board.setPwd(pwd);
-		board.setFilename(filename);
 
 		if (urlcommand.equals("/boardList.do")) {
 			BoardService service = BoardService.getInBoardService();
@@ -92,7 +76,8 @@ public class FrontRegisterController extends HttpServlet {
 				}
 
 				int pagersize = 3; // [1][2][3]
-				ThePager pager = new ThePager(totalboardcount, cpage, pagesize, pagersize, "board_list.jsp");
+
+				ThePager pager = new ThePager(totalboardcount, cpage, pagesize, pagersize, "boardList.do");
 				String pagerToString = pager.toString();
 				// 102건 : pagesize=5 >> pagecount=21페이지
 
@@ -106,6 +91,282 @@ public class FrontRegisterController extends HttpServlet {
 				request.setAttribute("pagerToString", pagerToString);
 				request.setAttribute("list", list);
 				request.setAttribute("listSize", listSize);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			viewpage = "/WEB-INF/board/board_list.jsp";
+
+		} else if (urlcommand.equals("/boardwrite.do")) {
+			viewpage = "/WEB-INF/board/board_write.jsp";
+		}
+
+		else if (urlcommand.equals("/boardwriteok.do")) {
+
+//			Board board = new Board();
+//
+//			String writer = request.getParameter("writer");
+//			String pwd = request.getParameter("pwd");
+//			String subject = request.getParameter("subject");
+//			String content = request.getParameter("content");
+//			String email = request.getParameter("email");
+//			String homepage = request.getParameter("homepage");
+//			String filename = request.getParameter("filename");
+//			
+//			board.setSubject(subject);
+//			board.setWriter(writer);
+//			board.setEmail(email);
+//			board.setHomepage(homepage);
+//			board.setContent(content);
+//			board.setPwd(pwd);
+//			board.setFilename(filename);
+			String resultData = "";
+			resultData = "게시글이 성공적으로 작성되었습니다.";
+			viewpage = "/WEB-INF/board/board_writeok.jsp";
+
+			request.setAttribute("data", resultData);
+
+			RequestDispatcher dis = request.getRequestDispatcher(viewpage);
+			dis.forward(request, response);
+
+		}
+    	
+    	else if(urlcommand.equals("/boardContent.do")) {
+    		String idx= request.getParameter("idx"); //글번호 받기
+    		try {
+    			//글 번호를 가지고 오지  않았을 경우 예외처리
+        		if(idx == null || idx.trim().equals("")){
+        			response.sendRedirect("board_list.jsp");
+        			return; //더 이상 아래 코드가 실행되지 않고 클라이언트에게 바로 코드 전달
+        		}
+        		
+        		idx=idx.trim();
+        		//http://192.168.0.12:8090/WebServlet_5_Board_Model1_Sample/board/board_content.jsp?idx=19&cp=1&ps=5
+        		//board_content.jsp?idx=19&cp=1&ps=5  //다시 목록으로 갔을때  ... cp , ps 가지고 ...
+        		//why: 목록으로 이동시 현재 page 유지하고 싶어요
+        		String cpage = request.getParameter("cp"); //current page
+        		String pagesize = request.getParameter("ps"); //pagesize
+        		
+        		//List 페이지 처음 호출 ...
+        		if(cpage == null || cpage.trim().equals("")){
+        			//default 값 설정
+        			cpage = "1"; 
+        		}
+        	
+        		if(pagesize == null || pagesize.trim().equals("")){
+        			//default 값 설정
+        			pagesize = "5"; 
+        		}
+        		
+        		//상세보기 내용
+        		BoardService service = BoardService.getInBoardService();
+        		
+        		//옵션
+        		//조회수 증가
+        		boolean isread = service.addReadNum(idx);
+        		if(isread)System.out.println("조회증가 : " + isread);
+        		
+        		
+        		//데이터 조회 (1건 (row))
+        		Board board = service.content(Integer.parseInt(idx));
+        		
+        		
+	    		request.setAttribute("idx", idx);
+	    		request.setAttribute("board", board);
+	    		request.setAttribute("cpage", cpage);
+	    		request.setAttribute("pagesize", pagesize);
+        		
+	    		//------------------------------------
+	    		//덧글 목록 보여주기
+	    		List<Reply> replylist = service.replyList(idx); //참조하는 글번호
+  				request.setAttribute("replylist", replylist);
+  				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
+    		try {
+    			//글 번호를 가지고 오지  않았을 경우 예외처리
+        		if(idx == null || idx.trim().equals("")){
+        			response.sendRedirect("board_list.jsp");
+        			return; //더 이상 아래 코드가 실행되지 않고 클라이언트에게 바로 코드 전달
+        		}
+        		
+        		idx=idx.trim();
+        		//http://192.168.0.12:8090/WebServlet_5_Board_Model1_Sample/board/board_content.jsp?idx=19&cp=1&ps=5
+        		//board_content.jsp?idx=19&cp=1&ps=5  //다시 목록으로 갔을때  ... cp , ps 가지고 ...
+        		//why: 목록으로 이동시 현재 page 유지하고 싶어요
+        		String cpage = request.getParameter("cp"); //current page
+        		String pagesize = request.getParameter("ps"); //pagesize
+        		
+        		//List 페이지 처음 호출 ...
+        		if(cpage == null || cpage.trim().equals("")){
+        			//default 값 설정
+        			cpage = "1"; 
+        		}
+        	
+        		if(pagesize == null || pagesize.trim().equals("")){
+        			//default 값 설정
+        			pagesize = "5"; 
+        		}
+        		
+        		//상세보기 내용
+        		BoardService service = BoardService.getInBoardService();
+        		
+        		//옵션
+        		//조회수 증가
+        		boolean isread = service.addReadNum(idx);
+        		if(isread)System.out.println("조회증가 : " + isread);
+        		
+        		
+        		//데이터 조회 (1건 (row))
+        		Board board = service.content(Integer.parseInt(idx));
+        		
+	    		request.setAttribute("idx", idx);
+	    		request.setAttribute("board", board);
+	    		request.setAttribute("cpage", cpage);
+	    		request.setAttribute("pagesize", pagesize);
+        		
+	    		//------------------------------------
+	    		//덧글 목록 보여주기
+	    		List<Reply> replylist = service.replyList(idx); //참조하는 글번호
+  				request.setAttribute("replylist", replylist);
+  				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+    		
+    		viewpage="/WEB-INF/board/board_content.jsp";
+    		
+    	} 
+		
+    	else if (urlcommand.equals("/boardEdit.do")) {
+      		viewpage="/WEB-INF/board/board_edit.jsp";
+    	}
+		
+      	else if (urlcommand.equals("/boardEditOk.do")) {
+      		String idx = request.getParameter("idx");
+      		try {
+      			if (idx == null || idx.strip().equals("")) {
+      	            response.sendRedirect("board_list.jsp");
+      	            return;
+      			}
+      			BoardService service = BoardService.getInBoardService();
+      			int result = service.board_Edit(request);
+      			String msg="";
+      			String url="";
+      			if(result > 0){
+      				msg="edit success";
+      				url="board_list.jsp";
+      			}else{
+      				msg="edit fail";
+      				url="board_edit.jsp?idx="+idx;
+      			}
+      			request.setAttribute("board_msg",msg);
+      			request.setAttribute("board_url",url);
+      		}catch (Exception e) {
+      			e.printStackTrace();
+      		}	
+//      		viewpage="/WEB-INF/board/board_editok.jsp";
+      	}
+		
+	 
+	    else if (urlcommand.equals("/boardDelete.do")) {
+	    	viewpage="/WEB-INF/board/board_delete.jsp";
+	    }
+    	 
+      	else if (urlcommand.equals("/boardDeleteOk.do")) {
+
+      		String idx = request.getParameter("idx");
+      		String pwd = request.getParameter("pwd");
+      		String msg="";
+			String url="";
+      		BoardService service = BoardService.getInBoardService();
+      		try {
+				int result =service.board_Delete(idx, pwd);
+				if(result > 0){
+					msg="delete success";
+					url="/boardList.do";
+				}else{
+					msg="delete fail";
+					url="/boardList.do";
+					// response.sendRedirect("board_list.jsp");
+				}
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+      		request.setAttribute("board_url",url);
+      		request.setAttribute("board_msg", msg);
+      		viewpage = "/WEB-INF/board/redirect.jsp";
+
+      	} 
+
+
+      	else if(urlcommand.equals("/boardRewrite.do")) {
+      		
+			String idx = request.getParameter("idx");
+			String cpage = request.getParameter("cp");
+			String pagesize = request.getParameter("ps");
+			String subject = request.getParameter("subject"); // 답글의 제목으로 사용
+			
+			if(idx == null || subject == null || idx.trim().equals("") || subject.trim().equals("")){
+				viewpage="/WEB-INF/board/board_list.jsp";
+				return;
+			}
+			if(cpage == null || pagesize == null){
+				cpage ="1";
+				pagesize = "5";
+			}
+			
+			request.setAttribute("idx", idx);
+    		request.setAttribute("subject", subject);
+    		request.setAttribute("cpage", cpage);
+    		request.setAttribute("pagesize", pagesize);
+			
+      		viewpage="/WEB-INF/board/board_rewrite.jsp";
+      	}
+    	
+      	else if(urlcommand.equals("/boardRewriteOk.do")) {
+      		int idx = Integer.parseInt(request.getParameter("idx")); 
+      		String writer = request.getParameter("writer");
+      		String subject = request.getParameter("subject");
+      		String content = request.getParameter("content");
+      		String email = request.getParameter("email");
+      		String homepage = request.getParameter("homepage");
+      		String filename = request.getParameter("filename");
+      		String pwd = request.getParameter("pwd"); 
+      		
+      		String cpage = request.getParameter("cp"); //current page
+      		String pagesize = request.getParameter("ps"); //pagesize
+      		
+      		Board board = new Board();
+      		BoardService service = BoardService.getInBoardService();
+      		
+      		board.setIdx(idx);
+      		board.setWriter(writer);
+      		board.setSubject(subject);
+      		board.setContent(content);
+      		board.setEmail(email);
+      		board.setHomepage(homepage);
+      		board.setFilename(filename);
+      		board.setPwd(pwd);
+      	
+      		try {
+				int result = service.rewriteok(board);
+				String msg="";
+			    String url="";
+			    if(result > 0){
+			    	msg ="rewrite insert success";
+			    	url ="/boardList.do";
+			    }else{
+			    	msg="rewrite insert fail";
+			    	url="/boardContent.do?idx="+idx+"&cp="+cpage+"&ps="+pagesize;
+			    }
+			    
+			    request.setAttribute("board_msg",msg);
+			    request.setAttribute("board_url", url);
+			    
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -113,15 +374,7 @@ public class FrontRegisterController extends HttpServlet {
 
 			viewpage = "/WEB-INF/board/board_list.jsp";
 
-		}else if (urlcommand.equals("/boardContent.do")) {
-
-		} else if (urlcommand.equals("/boardEdit.do")) {
-
-		}else if (urlcommand.equals("/boardDelete.do")) {
-
-		} else if (urlcommand.equals("/boardRewrite.do")) {
-
-		}else if (urlcommand.equals("/boardRewriteOk.do")) {
+//		} else if (urlcommand.equals("/boardRewriteOk.do")) {
 //      		BoardService service = BoardService.getInBoardService();
 //      		int result = service.rewriteok(board);
 //      		
@@ -143,22 +396,7 @@ public class FrontRegisterController extends HttpServlet {
 //      	    request.setAttribute("board_url", url);
 		} else if (urlcommand.equals("boardRewriteEdit.do")) {
 
-		} else if (urlcommand.equals("/boardwrite.do")) {
-			viewpage = "/WEB-INF/board/board_write.jsp";
-		} else if (urlcommand.equals("/boardwriteok.do")) {
-//      	action = new WriteOkServiceAction();
-//    		forward = action.execute(request, response);
-			int result = 0;
-			BoardService service = BoardService.getInBoardService();
-			try {
-				result = service.writeOk(board);
-				System.out.println(result);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			viewpage = "/WEB-INF/board/board_list.jsp";
-		}
+		} 
 
 //     	if(forward != null) {
 //    		if(forward.isRedirect()) { // true // location.href="" 새로운 페이지 처리
@@ -183,5 +421,6 @@ public class FrontRegisterController extends HttpServlet {
 			throws ServletException, IOException {
 		doProcess(request, response);
 	}
+
 
 }

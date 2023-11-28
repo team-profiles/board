@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%-- <%
 	//삭제글 처리 (글번호 받기)
 	String idx = request.getParameter("idx");
 	if(idx == null || idx.trim().equals(""))
@@ -13,7 +14,7 @@
 <%	
 	return; //서버에서 더이 코드 실행하지 않고 종료 .....
 	}
-%>
+%> --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -39,16 +40,28 @@
 
 </head>
 <body>
-	<%
-		pageContext.include("/include/header.jsp");
-	%>
+	<c:set var="idx" value="${param.idx}" />
+
+    <c:if test="${empty idx or idx eq ''}">
+        <script>
+            alert("글번호가 넘어오지 않았습니다");
+            history.back();
+        </script>
+        <c:choose>
+            <c:when test="${true}"></c:when>
+            <c:otherwise>
+                <%-- <% return; %> --%>
+                <c:out value="" />
+            </c:otherwise>
+        </c:choose>
+    </c:if>
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
-			<form name="del" method="POST" action="board_deleteok.jsp">
+			<form name="del" method="GET" action="${pageContext.request.contextPath}/boardDeleteOk.do">
 				<center>
 					비밀번호 :
 					<input type="password" name="pwd">
-					<input type="hidden"  name="idx" value="<%=idx %>">
+					<input type="hidden"  name="idx" value="${idx}">
 					<hr width="500" color="gold">
 					<input type="button" value="삭제" onclick="delCheck();">
 					<input type="reset" value="다시">

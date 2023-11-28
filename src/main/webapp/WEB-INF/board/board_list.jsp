@@ -19,10 +19,6 @@
 	<c:import url="/include/header.jsp" />
 	게시판 목록
 	<br>
-
-	<c:set var="pagesize" value="${pagesize}" />
-	<c:set var="cpage" value="${cpage}" />
-	<c:set var="pagecount" value="${pagecount}" />
 	
 	<div id="pagecontainer">
 		<div style="padding-top: 30px; text-align: cetner">
@@ -62,7 +58,7 @@
 				</tr>
 				<!-- 데이터가 한건도 없는 경우  -->
 				
-				<c:if test="${list eq null || listSize eq 0}">
+				<c:if test="${list == null || listSize == 0}">
 					<tr><td colspan='5'>데이터가 없습니다</td></tr>
 				</c:if>
 
@@ -77,7 +73,7 @@
 							<c:if test="${board.depth > 0}">
 								<img src="../images/re.gif">
 							</c:if>
-							<a href="board_content.jsp?idx=${board.idx}&cp=${cpage}&ps=${pagesize}">
+							<a href="${pageContext.request.contextPath}/boardContent.do?idx=${board.idx}&cp=${cpage}&ps=${pagesize}">
 								<c:choose>
 									<c:when test="${board.subject != null && fn:length(board.subject) > 10}">
 										${fn:substring(board.subject,0,10)}...
@@ -113,7 +109,7 @@
 					
 						<!--이전 링크 --> 
 						<c:if test="${cpage > 1}">
-							<a href="board_list.jsp?cp=${cpage-1}&ps=${pagesize}">이전</a>
+							<a href="${pageContext.request.contextPath}/boardList.do?cp=${cpage-1}&ps=${pagesize}">이전</a>
 						</c:if>
 						<!-- page 목록 나열하기 -->
 						<c:forEach var="i" begin="1" end="${pagecount}" step="1">
@@ -122,13 +118,13 @@
 										<font color="red" >[${i}]</font>
 								</c:when>
 								<c:otherwise>
-									<a href="board_list.jsp?cp=${i}&ps=${pagesize}">[${i}]</a>
+									<a href="${pageContext.request.contextPath}/boardList.do?cp=${i}&ps=${pagesize}">[${i}]</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						<!--다음 링크 --> 
 						<c:if test="${cpage < pagecount}">
-							<a href="board_list.jsp?cp=${cpage+1}&ps=${pagesize}">다음</a>
+							<a href="${pageContext.request.contextPath}/boardList.do?cp=${cpage+1}&ps=${pagesize}">다음</a>
 						</c:if>
 					</td>
 					<td colspan="2" align="center">총 게시물 수 : ${totalboardcount}
@@ -136,12 +132,9 @@
 				</tr>
 				<tr>
 					<td colspan="5" align="center">
-					
-				<c:if test="${pagersize eq 3}">
-					<tr><td colspan='5'>데이터가 없습니다</td></tr>
-				</c:if>
 					${pagerToString}
 					</td>
+					</tr>
 			</table>
 		</div>
 	</div>
