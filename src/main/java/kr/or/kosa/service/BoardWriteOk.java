@@ -8,7 +8,6 @@ import kr.or.kosa.action.ActionForward;
 
 public class BoardWriteOk implements Action{
 
-
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		String resultData = "게시글이 성공적으로 작성되었습니다.";
@@ -16,7 +15,7 @@ public class BoardWriteOk implements Action{
 		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false); //forward 방식
-		forward.setPath("/WEB-INF/board/board_writeok.jsp");
+		forward.setPath("/WEB-INF/board/boardList.do");
 
 		return forward;
 	}

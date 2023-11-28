@@ -18,6 +18,7 @@ public class BoardDeleteOk implements Action{
 		BoardService service = BoardService.getInBoardService();
 		try {
 			int result = service.board_Delete(idx, pwd);
+			System.out.println(result);
 			if (result > 0) {
 				msg = "delete success";
 				url = "/boardList.do";
@@ -29,6 +30,7 @@ public class BoardDeleteOk implements Action{
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
+		
 		request.setAttribute("board_url", url);
 		request.setAttribute("board_msg", msg);
 		
