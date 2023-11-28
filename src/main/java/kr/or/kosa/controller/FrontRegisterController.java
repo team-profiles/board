@@ -357,7 +357,7 @@ public class FrontRegisterController extends HttpServlet {
       		viewpage="/WEB-INF/board/redirect.jsp";
 
       		
-		} else if (urlcommand.equals("boardRewriteEdit.do")) {
+		} else if (urlcommand.equals("/boardRewriteEdit.do")) {
 			
 		} else if (urlcommand.equals("/boardReplyOk.do")) {
 			
