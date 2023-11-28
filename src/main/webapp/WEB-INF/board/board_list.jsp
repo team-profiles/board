@@ -73,8 +73,7 @@
 							<c:if test="${board.depth > 0}">
 								<img src="../images/re.gif">
 							</c:if>
-<%-- 							<a href="${pageContext.request.contextPath}/boardContent.do?idx=${board.idx}&cp=${cpage}&ps=${pagesize}">
- --%>							<a href="${pageContext.request.contextPath}/boardContent.do?idx=${board.idx}">
+						<a href="${pageContext.request.contextPath}/boardContent.do?idx=${board.idx}&cp=${cpage}&ps=${pagesize}">
 								<c:choose>
 									<c:when test="${board.subject != null && fn:length(board.subject) > 10}">
 										${fn:substring(board.subject,0,10)}...

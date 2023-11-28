@@ -344,6 +344,7 @@ public class FrontRegisterController extends HttpServlet {
 			    }else{
 			    	msg="rewrite insert fail";
 			    	url="/boardContent.do?idx="+idx+"&cp="+cpage+"&ps="+pagesize;
+			    	
 			    }
 			    
 			    request.setAttribute("board_msg",msg);
@@ -357,9 +358,7 @@ public class FrontRegisterController extends HttpServlet {
       		viewpage="/WEB-INF/board/redirect.jsp";
 
       		
-		} else if (urlcommand.equals("/boardRewriteEdit.do")) {
-			
-		} else if (urlcommand.equals("/boardReplyOk.do")) {
+      		}else if (urlcommand.equals("/boardReplyOk.do")) {
 			
 		    // 데이터 받기
 		    String writer = request.getParameter("reply_writer");
