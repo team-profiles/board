@@ -1,4 +1,4 @@
-<%@page import="kr.or.kosa.service.BoardService"%>
+<%-- <%@page import="kr.or.kosa.service.BoardService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -38,5 +38,5 @@
 	request.setAttribute("board_url",url); */
 
 %>
-<%-- <jsp:forward page="redirect.jsp"></jsp:forward> --%>
-<jsp:forward page="board_list.jsp"></jsp:forward>
+<jsp:forward page="redirect.jsp"></jsp:forward>
+<jsp:forward page="board_list.jsp"></jsp:forward> --%>
