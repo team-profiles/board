@@ -16,6 +16,8 @@
 <title>board_content</title>
 <link rel="Stylesheet"
 	href="style/default.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 </head>
 <body>
 
@@ -68,7 +70,7 @@
 					</tr>
 				</table>
 				<!--  꼬리글 달기 테이블 -->
-				<form name="reply" action="${pageContext.request.contextPath}/boardReplyOk.do" method="POST">
+				<form name="reply" id="replyForm">
 						<!-- hidden 태그  값을 숨겨서 처리  -->
 						<input type="hidden" name="idx" value="${idx}"> 
 						<input type="hidden" name="userid" value=""><!-- 추후 필요에 따라  -->
@@ -86,63 +88,145 @@
 								<td align="left">
 									비밀번호:
 									<input type="password" name="reply_pwd" size="4"> 
-									<input type="button" value="등록" onclick="reply_check()">
+									<input type="button" value="등록" id="btn" onclick="reply_check()">
 								</td>
 							</tr>
 						</table>
 				</form>
 				<!-- 유효성 체크	 -->
-				<script type="text/javascript">
-					function reply_check() {
-						var frm = document.reply;
-						if (frm.reply_writer.value == "" || frm.reply_content.value == ""
-							|| frm.reply_pwd.value == "") {
-									alert("리플 내용, 작성자, 비밀번호를 모두 입력해야합니다.");
-							return false;
-						}
-					frm.submit();
-					}
-					function reply_del(frm) {
-						//alert("del");
-						//var frm = document.replyDel;
-						//alert(frm);
-						if (frm.delPwd.value == "") {
-							alert("비밀번호를 입력하세요");
-							frm.delPwd.focus();
-							return false;
-						}
-						frm.submit();
-					}
-				</script>
+<script type="text/javascript">
+function windowonload(null,) {
+	fetch_reply();
+}
+
+
+    function fetch_reply(data,url) {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/"+url+".fetch",
+            type: "get",
+            data: data,
+            dataType: "json",
+            success: function(data) {
+                // Clear the existing data
+                $('#replyBody').empty();
+
+                // Append new data to the tbody
+                $.each(data, function (index, reply) {
+                    addComment(reply.writer, reply.content, reply.writedate, reply.no, reply.idx_fk);
+                });
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
+        });
+    };
+    
+    function addComment(writer, content, writedate, no, idx_fk) {
+        // 동적으로 댓글 행을 생성하고 추가
+        var dynamicCommentsContainer = $("#replyBody");
+
+        var newRow = $("<tr>").attr("align", "left");
+
+        var newCell1 = $("<td>").attr("width", "80%").html("[" + writer + "]" + ":" + content + "<br>작성일:" + writedate);
+
+        var newCell2 = $("<td>").attr("width", "20%");
+        var deleteForm = $("<form>").attr({
+            action: "${pageContext.request.contextPath}/boardreply_deleteOk.jsp",
+            method: "POST",
+            name: "replyDel"
+        });
+
+        var hiddenNo = $("<input>").attr({
+            type: "hidden",
+            name: "no",
+            value: no
+        });
+        deleteForm.append(hiddenNo);
+
+        var hiddenIdx = $("<input>").attr({
+            type: "hidden",
+            name: "idx",
+            value: idx_fk
+        });
+        deleteForm.append(hiddenIdx);
+
+        var passwordInput = $("<input>").attr({
+            type: "password",
+            name: "delPwd",
+            size: "4"
+        });
+
+        var passwordLabel = $("<label>").html("password:");
+        deleteForm.append(passwordLabel);
+
+        deleteForm.append(passwordInput);
+
+        var deleteButton = $("<input>").attr({
+            type: "button",
+            value: "삭제",
+            name:"del",
+            id: 'delIdx' + no
+        }).click(function() {
+            reply_del(this.form);
+        });
+        deleteForm.append(deleteButton);
+
+        newCell2.append(deleteForm);
+
+        newRow.append(newCell1, newCell2);
+        dynamicCommentsContainer.append(newRow);
+    }
+
+    function reply_check() {
+        var frm = document.reply;
+        if (frm.reply_writer.value == "" || frm.reply_content.value == "" || frm.reply_pwd.value == "") {
+            alert("리플 내용, 작성자, 비밀번호를 모두 입력해야합니다.");
+            return false;
+        }
+        
+        const form_data = { 
+                'idx': document.getElementsByName('idx')[0].value,
+                'userid': document.getElementsByName('userid')[0].value,
+                'reply_writer': document.getElementsByName('reply_writer')[0].value,
+                'reply_content': document.getElementsByName('reply_content')[0].value,
+                'reply_pwd': document.getElementsByName('reply_pwd')[0].value,
+                'cp': "${cpage}",
+                'ps':"${pagesize}"
+            };
+        const url = "boardReplyOk";
+        fetch_reply(form_data,url);
+    };
+
+    
+    function reply_del(frm, no) {
+        if (frm.delPwd.value == "") {
+            alert("비밀번호를 입력하세요");
+            
+            return false;
+        }
+
+        const form_data = {
+            'no': no,
+            // add other necessary data
+        };
+        console.log(frm.del.onClick());
+    }
+</script>
+
 				<br>
 				<!-- 꼬리글 목록 테이블 -->
 					<c:if test="${list eq null || listSize eq 0}">
 					<tr><td colspan='5'>데이터가 없습니다</td></tr>
 				
-						<table width="80%" border="1">
+						<table width="80%" border="1" id="reply">
 							<tr>
 								<th colspan="2">REPLY LIST</th>
 							</tr>
-					<c:forEach var="reply" items="${replylist}">
-						<tr align="left">
-							<td width="80%">
-								[${reply.writer}] : ${reply.content}
-								<!--  확인 필요 -->
-								<br> 작성일:<c:if test="${not empty reply.writedate}">
-								    <fmt:formatDate value="${reply.writedate}" pattern="yyyy-MM-dd HH:mm:ss" var="formattedDate" />
-								    ${formattedDate}
-								</c:if>
-							</td>
-							<td width="20%">
-							<form action="boardreplydeleteOk.do" method="POST" name="replyDel">
-								<input type="hidden" name="no" value="${reply.no}"> 
-								<input type="hidden" name="idx" value="${idx}"> 
-								password :<input type="password" name="delPwd" size="4"> 
-								<input type="button" value="삭제" onclick="reply_del(this.form)">
-							</form>
-						</td>
-					</tr>
-					</c:forEach>
+							<tbody id="replyBody">
+							
+
+							</tbody>
+					
 					</table>
 				</c:if>
 			</center>
