@@ -57,7 +57,7 @@ public class FrontRegisterController extends HttpServlet {
 
 		} else if (urlcommand.equals("/boardwrite.do")) {
 			forward = new ActionForward();
-    		forward.setRedirect(true);
+    		forward.setRedirect(false);
     		forward.setPath("/WEB-INF/board/board_write.jsp");
     		
 		} else if (urlcommand.equals("/boardwriteok.do")) {
@@ -80,7 +80,7 @@ public class FrontRegisterController extends HttpServlet {
 
 		else if (urlcommand.equals("/boardDelete.do")) {
 			forward = new ActionForward();
-    		forward.setRedirect(true);
+    		forward.setRedirect(false);
     		forward.setPath("/WEB-INF/board/board_delete.jsp");
 		}
 

@@ -72,8 +72,10 @@
 			<!-- form 시작 -->
 			<!-- <form name="edit" action="board_editok.jsp" method="POST"> -->
 			<form name="edit" action="${pageContext.request.contextPath}/boardEditOk.do" method="post">
+
 				<center>
 					<table width="90%" border="1">
+					
 						<tr>
 							<td width="20%" align="center"><b> 글번호 </b></td>
 							<td width="30%">
@@ -141,7 +143,7 @@
 						</tr>
 						<tr>
 							<td colspan="4" align="center">
-								<a href="board_list.jsp">목록</a>
+								<a href="${pageContext.request.contextPath}/boardList.do">목록</a>
 							</td>
 						</tr>
 					</table>

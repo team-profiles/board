@@ -57,7 +57,7 @@
     </c:if>
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
-			<form name="del" method="GET" action="${pageContext.request.contextPath}/boardDeleteOk.do">
+			<form name="del" method="POST" action="${pageContext.request.contextPath}/boardDeleteOk.do">
 				<center>
 					비밀번호 :
 					<input type="password" name="pwd">
