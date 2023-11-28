@@ -98,7 +98,7 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-						<input type="button" 	value="글쓰기" onclick="boardcheck();" />
+						<input type="button" 	value="글쓰기" onclick="boardcheck();" /> 
 						<input type="reset" 	value="다시쓰기" />
 						<a href="${pageContext.request.contextPath}/boardList.do">HOME</a>
 						</td>

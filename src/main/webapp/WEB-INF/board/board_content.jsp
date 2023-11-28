@@ -64,6 +64,7 @@
 						<a href="${pageContext.request.contextPath}/boardEdit.do?idx=${idx}&cp=${cpage}&ps=${pagesize}">편집</a>	|
 						<a href="${pageContext.request.contextPath}/boardDelete.do?idx=${idx}&cp=${cpage}&ps=${pagesize}">삭제</a> |
 						<a href="${pageContext.request.contextPath}/boardRewrite.do?idx=${idx}&cp=${cpage}&ps=${pagesize}&subject=${board.subject}">답글</a>
+						
 						</td>
 					</tr>
 				</table>
