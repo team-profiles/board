@@ -1,7 +1,6 @@
 package kr.or.kosa.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.or.kosa.dao.BoardDao;
 import kr.or.kosa.dto.Board;
 import kr.or.kosa.dto.Reply;
 import kr.or.kosa.service.BoardService;
@@ -222,11 +220,16 @@ public class FrontRegisterController extends HttpServlet {
     		viewpage="/WEB-INF/board/board_content.jsp";
     		
     	} 
+		
       	else if (urlcommand.equals("/boardEdit.do")) {
-      		
-      		
       		viewpage="/WEB-INF/board/board_edit.jsp";
     	}
+		
+      	else if (urlcommand.equals("/boardEditOk.do")) {
+      		viewpage="/WEB-INF/board/board_editok.jsp";
+      		
+      	}
+		
 	 
 	    else if (urlcommand.equals("/boardDelete.do")) {
 	    	viewpage="/WEB-INF/board/board_delete.jsp";
@@ -243,7 +246,7 @@ public class FrontRegisterController extends HttpServlet {
 				int result =service.board_Delete(idx, pwd);
 				if(result > 0){
 					msg="delete success";
-
+					System.out.println("success");
 				}else{
 					msg="delete fail";
 					System.out.println("fail");
@@ -259,32 +262,13 @@ public class FrontRegisterController extends HttpServlet {
 
 
       	else if(urlcommand.equals("/boardRewrite.do")) {
+      		
       		viewpage="/WEB-INF/board/board_rewrite.jsp";
       	}
     	
       	else if(urlcommand.equals("/boardRewriteOk.do")) {
-//      		BoardService service = BoardService.getInBoardService();
-//      		int result = service.rewriteok(board);
-//      		
-//      		//list 이동시 현재 pagesize , cpage
-//      		String cpage = request.getParameter("cp"); //current page
-//      		String pagesize = request.getParameter("ps"); //pagesize
-//      		//코드는 필요에 따라서  url ="board_list.jsp?cp=<%=cpage";
-//      		String msg="";
-//      	    String url="";
-//      	    if(result > 0){
-//      	    	msg ="rewrite insert success";
-//      	    	url ="board_list.jsp";
-//      	    }else{
-//      	    	msg="rewrite insert fail";
-//      	    	url="board_content.jsp?idx="+board.getIdx();
-//      	    }
-//      	    
-//      	    request.setAttribute("board_msg",msg);
-//      	    request.setAttribute("board_url", url);
-		}
 
-		else if (urlcommand.equals("boardRewriteEdit.do")) {
+		} else if (urlcommand.equals("boardRewriteEdit.do")) {
 
 		}
 

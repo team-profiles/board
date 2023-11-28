@@ -21,7 +21,6 @@
 	  	out.print("location.href='board_list.jsp'");
 	  out.print("</script>");
   }
-  
   BoardService service = BoardService.getInBoardService();
   int result = service.board_Edit(request);
   
@@ -39,4 +38,5 @@
 	request.setAttribute("board_url",url);
 
 %>
-<jsp:forward page="redirect.jsp"></jsp:forward>
+<%-- <jsp:forward page="redirect.jsp"></jsp:forward> --%>
+<jsp:forward page="board_list.jsp"></jsp:forward>
