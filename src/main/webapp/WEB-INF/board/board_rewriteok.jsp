@@ -24,6 +24,7 @@
 </jsp:useBean>
 
 <%	
+/* 
 	BoardService service = BoardService.getInBoardService();
 	int result = service.rewriteok(board);
 	
@@ -43,6 +44,7 @@
     
     request.setAttribute("board_msg",msg);
     request.setAttribute("board_url", url);
+    */
 	
 %> 
 <jsp:forward page="redirect.jsp"></jsp:forward>

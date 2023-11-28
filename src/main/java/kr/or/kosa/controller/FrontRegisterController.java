@@ -258,13 +258,78 @@ public class FrontRegisterController extends HttpServlet {
 
       	else if(urlcommand.equals("/boardRewrite.do")) {
       		
+			String idx = request.getParameter("idx");
+			String cpage = request.getParameter("cp");
+			String pagesize = request.getParameter("ps");
+			String subject = request.getParameter("subject"); // 답글의 제목으로 사용
+			
+			if(idx == null || subject == null || idx.trim().equals("") || subject.trim().equals("")){
+				viewpage="/WEB-INF/board/board_list.jsp";
+				return;
+			}
+			if(cpage == null || pagesize == null){
+				cpage ="1";
+				pagesize = "5";
+			}
+			
+			request.setAttribute("idx", idx);
+    		request.setAttribute("subject", subject);
+    		request.setAttribute("cpage", cpage);
+    		request.setAttribute("pagesize", pagesize);
+			
       		viewpage="/WEB-INF/board/board_rewrite.jsp";
       	}
     	
       	else if(urlcommand.equals("/boardRewriteOk.do")) {
+      		int idx = Integer.parseInt(request.getParameter("idx")); 
+      		String writer = request.getParameter("writer");
+      		String subject = request.getParameter("subject");
+      		String content = request.getParameter("content");
+      		String email = request.getParameter("email");
+      		String homepage = request.getParameter("homepage");
+      		String filename = request.getParameter("filename");
+      		String pwd = request.getParameter("pwd"); 
+      		
+      		String cpage = request.getParameter("cp"); //current page
+      		String pagesize = request.getParameter("ps"); //pagesize
+      		
+      		Board board = new Board();
+      		BoardService service = BoardService.getInBoardService();
+      		
+      		board.setIdx(idx);
+      		board.setWriter(writer);
+      		board.setSubject(subject);
+      		board.setContent(content);
+      		board.setEmail(email);
+      		board.setHomepage(homepage);
+      		board.setFilename(filename);
+      		board.setPwd(pwd);
+      	
+      		try {
+				int result = service.rewriteok(board);
+				String msg="";
+			    String url="";
+			    if(result > 0){
+			    	msg ="rewrite insert success";
+			    	url ="/boardList.do";
+			    }else{
+			    	msg="rewrite insert fail";
+			    	url="/boardContent.do?idx="+idx+"&cp="+cpage+"&ps="+pagesize;
+			    }
+			    
+			    request.setAttribute("board_msg",msg);
+			    request.setAttribute("board_url", url);
+			    
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+      		
+      		viewpage="/WEB-INF/board/redirect.jsp";
 
+      		
 		} else if (urlcommand.equals("boardRewriteEdit.do")) {
-
+			
 		}
 
 //     	if(forward != null) {
