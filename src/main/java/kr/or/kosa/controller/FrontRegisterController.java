@@ -76,7 +76,7 @@ public class FrontRegisterController extends HttpServlet {
 				}
 
 				int pagersize = 3; // [1][2][3]
-				ThePager pager = new ThePager(totalboardcount, cpage, pagesize, pagersize, "board_list.jsp");
+				ThePager pager = new ThePager(totalboardcount, cpage, pagesize, pagersize, "boardList.do");
 				String pagerToString = pager.toString();
 				// 102건 : pagesize=5 >> pagecount=21페이지
 
@@ -90,6 +90,7 @@ public class FrontRegisterController extends HttpServlet {
 				request.setAttribute("pagerToString", pagerToString);
 				request.setAttribute("list", list);
 				request.setAttribute("listSize", listSize);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -151,6 +152,7 @@ public class FrontRegisterController extends HttpServlet {
         		
         		//데이터 조회 (1건 (row))
         		Board board = service.content(Integer.parseInt(idx));
+        		
         		
 	    		request.setAttribute("idx", idx);
 	    		request.setAttribute("board", board);

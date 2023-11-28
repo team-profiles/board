@@ -42,11 +42,6 @@
 		pageContext.include("/include/header.jsp");
 	%>
 	
-	<c:set var="idx" value="${idx}" />
-	<c:set var="subject" value="${subject}" />
-	<c:set var="cpage" value="${cpage}" />
-	<c:set var="pagesize" value="${pagesize}" />
-	
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
 			<form name="bbs" action="${pageContext.request.contextPath}/boardRewriteOk.do" method="POST">
