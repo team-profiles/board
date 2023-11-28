@@ -359,6 +359,43 @@ public class FrontRegisterController extends HttpServlet {
       		
 		} else if (urlcommand.equals("boardRewriteEdit.do")) {
 			
+		} else if (urlcommand.equals("/boardReplyOk.do")) {
+			
+		    // 데이터 받기
+		    String writer = request.getParameter("reply_writer");
+		    String content = request.getParameter("reply_content");
+		    String pwd = request.getParameter("reply_pwd");
+		    String idx_fk = request.getParameter("idx");
+		    System.out.println(idx_fk + "idx");
+			String userid = "empty";
+		    System.out.println(userid);
+		    // service 객체 생성
+		    BoardService service = BoardService.getInBoardService();
+		    int result;
+			try {
+				result = service.replyWrite(Integer.parseInt(idx_fk), writer, userid, content, pwd);
+				 String msg = "";
+				    String url = "";
+
+				    if (result > 0) {
+				        msg = "댓글 입력 성공";
+				        url = "/boardContent.do?idx=" + idx_fk;
+				    } else {
+				        msg = "댓글 입력 실패";
+				        url = "/boardContent.do?idx=" + idx_fk;
+				    }
+
+				    request.setAttribute("board_msg", msg);
+				    request.setAttribute("board_url", url);
+				    
+			} catch (NumberFormatException e) {
+				System.out.println("넘버포맷");
+			} catch (NamingException e) {
+				System.out.println("네이밍");				
+				e.printStackTrace();
+			}
+		   
+		    viewpage = "/WEB-INF/board/redirect.jsp";
 		}
 
 //     	if(forward != null) {
