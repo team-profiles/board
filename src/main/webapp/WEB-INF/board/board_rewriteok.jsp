@@ -1,52 +1,57 @@
-<%@page import="kr.or.kosa.service.BoardService"%>
+<%-- <%@page import="kr.or.kosa.service.BoardService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
-	request.setCharacterEncoding("utf-8");
-	
-	/* 
-	servelet 에서 사용하는 정상적인 방법
-	String writer = request.getParameter("writer");
-	String subject = request.getParameter("subject");
-	String content = request.getParameter("content");
-	String email = request.getParameter("email");
-	String homepage = request.getParameter("homepage");
-	String filename = request.getParameter("filename");
-	String pwd = request.getParameter("pwd"); 
-	
-	Board board = new Board();
-	board.setSubject(subject)......
-	*/
+	request.setCharacterEncoding("UTF-8");
+	//request.getParameter("") ....
+	//Board board = new Board();
+	//board.setName = request.getParameter("") 
+			
+  //자동 전제 조건 : jsp?name=kglim&			
 %>
-<jsp:useBean id="board" class="kr.or.kosa.dto.Board" scope="page">
+<jsp:useBean id="board" class="kr.or.kosa.dto.Board">
 	<jsp:setProperty property="*" name="board" />
 </jsp:useBean>
+<%
+	/*
+	out.print(board.getSubject() + "<br>");
+	out.print(board.getWriter() + "<br>");
+	out.print(board.getEmail() + "<br>");
+	out.print(board.getHomepage() + "<br>");
+	out.print(board.getContent() + "<br>");
+	out.print(board.getPwd() + "<br>");
+	out.print(board.getFilename() + "<br>");
+	*/	
 
-<%	
-/* 
-	BoardService service = BoardService.getInBoardService();
-	int result = service.rewriteok(board);
-	
-	//list 이동시 현재 pagesize , cpage
-	String cpage = request.getParameter("cp"); //current page
-	String pagesize = request.getParameter("ps"); //pagesize
-	//코드는 필요에 따라서  url ="board_list.jsp?cp=<%=cpage";
-	String msg="";
+	//out.print(board.getSubject() + "<br>");
+	//out.print(board.getWriter() + "<br>");
+    //단 jsp:useBean 성립  jsp:setProperty 자동화 ... 전제 ...
+    //name="subject" 이름이  Board DTO 객체 memberfield명과  동일
+    
+    //DB 컬럼명 == DTO memberfield == input name 속성명과 같다 (자동화...)
+    
+    //write.jsp(클라이언트 화면) >> 처리 writeok.jsp >> DAO객체 생성, 처리 ... (x)
+    //write.jsp(클라이언트 화면) >> 처리 writeok.jsp >> service 만 노출 >> 업무 ...
+    
+    BoardService service = BoardService.getInBoardService();
+    int result = service.writeOk(board);
+    
+    //write.jsp 화면  >> writeok.jsp 처리 >> service >> dao > DB 작업 > 
+    //return dao > return service >  writeok.jsp 결과처리 >> 이동 (공통) >> redirect.jsp
+    		
+    String msg="";
     String url="";
     if(result > 0){
-    	msg ="rewrite insert success";
+    	msg ="insert success";
     	url ="board_list.jsp";
     }else{
-    	msg="rewrite insert fail";
-    	url="board_content.jsp?idx="+board.getIdx();
+    	msg="insert fail";
+    	url="board_write.jsp";
     }
     
     request.setAttribute("board_msg",msg);
     request.setAttribute("board_url", url);
-    */
-	
-%> 
+%>
 <jsp:forward page="redirect.jsp"></jsp:forward>
 
 
@@ -56,6 +61,4 @@
 
 
 
-
-
-
+ --%>

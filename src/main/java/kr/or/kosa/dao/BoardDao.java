@@ -332,7 +332,9 @@ public class BoardDao {
 		*/
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
+		ResultSet rs2 = null;
 		int row = 0;
 		try {
 				conn = ds.getConnection();
@@ -341,12 +343,13 @@ public class BoardDao {
 				//처리 > 글번호 ,비번
 				
 				//비번검증
-				String sql_pwd="select pwd from jspboard where idx=?";
+				String sql_pwd="select pwd,refer,depth from jspboard where idx=?";
 				
 				//두개의 테이블 (FK) : 자식부터 삭제 , 부모 삭제
 				//jspboard(pk) , reply(fk:idx)
 				//reply idx_fk=1 delete, jspboard idx=1 delete
 				String sql_reply = "delete from reply where idx_fk=?";
+				String sql_get_max_depth = "select max(depth) as max_depth from jspboard where refer=?";
 				
 				//게시글 삭제
 				String sql_board="delete from jspboard where idx=?";
@@ -362,15 +365,31 @@ public class BoardDao {
 						 //두개를 하나의 논리적 단위
 						 //JDBC : auto commit 
 						 conn.setAutoCommit(false);//개발자가 rollback , commit 강제
-						 	//댓글삭제
-						 	pstmt = conn.prepareStatement(sql_reply);
-						 	pstmt.setString(1,idx);
-						 	pstmt.executeUpdate();
+						 	// refer 구하기
+						 	int depth = rs.getInt("depth");
+						 	int refer = rs.getInt("refer");
 						 	
-						 	//게시글 삭제 (원본글 , 답글)
-						 	pstmt = conn.prepareStatement(sql_board);
-						 	pstmt.setString(1,idx);
-						 	row = pstmt.executeUpdate();
+						 	int max_depth = 0;
+						 	pstmt2 = conn.prepareStatement(sql_get_max_depth);
+						 	pstmt2.setInt(1,refer);
+						 	rs2 = pstmt2.executeQuery();
+						 	if(rs2.next()) {
+						 		max_depth = rs2.getInt("max_depth");
+						 	}
+						 	
+						 	System.out.println("depth="+depth+",refer="+refer+"max_depth="+max_depth);
+						 	if(depth == max_depth) {
+						 		//게시글 삭제 (원본글 , 답글) - 원본글
+							 	pstmt = conn.prepareStatement(sql_board);
+							 	pstmt.setString(1,idx);
+							 	row = pstmt.executeUpdate();
+							 	
+							 	//댓글삭제
+							 	pstmt = conn.prepareStatement(sql_reply);
+							 	pstmt.setString(1,idx);
+							 	pstmt.executeUpdate();
+						 	}
+						 	
 						 	
 						 	if(row > 0) {
 						 		conn.commit(); //두개의 delete 실반영
@@ -396,7 +415,9 @@ public class BoardDao {
 		}finally {
 			try {
 				pstmt.close();
+				pstmt2.close();
 				rs.close();
+				rs2.close();
 				conn.close();//반환
 			} catch (Exception e2) {
 				

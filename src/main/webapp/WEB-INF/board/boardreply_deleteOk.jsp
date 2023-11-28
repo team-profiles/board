@@ -1,6 +1,6 @@
 <%@page import="kr.or.kosa.service.BoardService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%
 	String idx_fk=request.getParameter("idx");//댓글의 원본 게시글 번호
 	String no = request.getParameter("no");//댓글의 순번(PK)
@@ -9,7 +9,7 @@
 	if(idx_fk == null || no == null || pwd == null || no.trim().equals(""))
 	{
 %>
-	    <script type="text/javascript">
+<script type="text/javascript">
 			history.back();
 		</script>
 <%
@@ -34,8 +34,8 @@
 	    
 	    request.setAttribute("board_msg",msg);
 	    request.setAttribute("board_url", url);
-	%>
-	<jsp:forward page="redirect.jsp"></jsp:forward>
+%>
+<jsp:forward page="redirect.jsp"></jsp:forward>
 
 
 
