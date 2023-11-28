@@ -26,10 +26,10 @@
 	    
 	    if(result > 0){
 	    	msg ="댓글 삭제 성공";
-	    	url ="board_content.jsp?idx="+idx_fk;
+	    	url ="/boardContent.do?idx="+idx_fk;
 	    }else{
 	    	msg="댓글 삭제 실패";
-	    	url="board_content.jsp?idx="+idx_fk;
+	    	url="/boardContent.do?idx="+idx_fk;
 	    }
 	    
 	    request.setAttribute("board_msg",msg);
