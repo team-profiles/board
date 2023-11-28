@@ -4,8 +4,8 @@
 	pageEncoding="UTF-8"%>
 <%
 	//수정하기
-	String idx = request.getParameter("idx");
-	if(idx == null || idx.trim().equals("")){
+	/* String idx = request.getParameter("idx"); */
+/* 	if(idx == null || idx.trim().equals("")){
 		response.sendRedirect("board_list.jsp"); //cpage=1 , ps=5
 		return;
 	}
@@ -15,7 +15,7 @@
 		out.print("데이터 오류");
 		out.print("<hr><a href='board_list.jsp'>목록가지</a>");
 		return;
-	}
+	} */
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -77,19 +77,24 @@
 						<tr>
 							<td width="20%" align="center"><b> 글번호 </b></td>
 							<td width="30%">
-									<%=idx%> 
-									<input type="hidden" name="idx" value="<%=idx%>" ></td>
+									<%-- <%=idx%> --%> 
+									${board.idx}
+									<%-- <input type="hidden" name="idx" value="<%=idx%>" ></td> --%>
+									<input type="hidden" name="idx" value="${board.idx }" ></td>
 							<td width="20%" align="center"><b>작성일</b></td>
-							<td><%=board.getWritedate()%></td>
+							<%-- <td><%=board.getWritedate() %></td> --%>
+							<td>${board.writedate}</td>
 						</tr>
 						<tr>
 							<td width="20%" align="center"><b>글쓴이</b></td>
 							<td width="30%">
-								<input type="text" name="writer" value="<%=board.getWriter()%>">
+								<%-- <input type="text" name="writer" value="<%=board.getWriter()%>"> --%>
+								<input type="text" name="writer" value="${board.writer}">
 							</td>
 							<td width="20%" align="center"><b>홈페이지</b></td>
 							<td>
-								<input type="text" name="homepage" value="<%=board.getHomepage()%>">
+								<%-- <input type="text" name="homepage" value="<%=board.getHomepage()%>"> --%>
+								<input type="text" name="homepage" value="${board.homepage}">
 							</td>
 						</tr>
 						<tr>
@@ -99,28 +104,32 @@
 							</td>
 							<td width="20%" align="center"><b>이메일</b></td>
 							<td>
-								<input type="text" name="email" value="<%=board.getEmail()%>">
+								<%-- <input type="text" name="email" value="<%=board.getEmail()%>"> --%>
+								<input type="text" name="email" value="${board.email}">
 							</td>
 						</tr>
 
 						<tr>
 							<td width="20%" align="center"><b>제목</b></td>
 							<td colspan="3">
-								<input type="text" name="subject" value="<%=board.getSubject()%>" size="40">
+								<%-- <input type="text" name="subject" value="<%=board.getSubject()%>" size="40"> --%>
+								<input type="text" name="subject" value="${board.subject}" size="40">
 							</td>
 						</tr>
 						<tr height="100">
 							<td width="20%" align="center"><b>글내용</b></td>
 							<td colspan="3">
 								<textarea rows="7" cols="50" name="content">
-									<%=board.getContent()%>
+									<%-- <%=board.getContent()%> --%>
+									${board.content}
 								</textarea>
 							</td>
 						</tr>
 
 						<tr>
 							<td width="20%" align="center"><b>첨부파일</b></td>
-							<td colspan="3"><%=board.getFilename()%> (<%=board.getFilesize()%>bytes)<br /> 
+							<%-- <td colspan="3"><%=board.getFilename()%> (<%=board.getFilesize()%>bytes)<br /> --%>
+							<td colspan="3">${board.filename} (${board.filesize}bytes)<br /> 
 								<input type="file" name="filename">
 							</td>
 						</tr>
