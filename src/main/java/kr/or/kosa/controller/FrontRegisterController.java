@@ -223,13 +223,34 @@ public class FrontRegisterController extends HttpServlet {
     		
     	} 
 		
-      	else if (urlcommand.equals("/boardEdit.do")) {
+    	else if (urlcommand.equals("/boardEdit.do")) {
       		viewpage="/WEB-INF/board/board_edit.jsp";
     	}
 		
       	else if (urlcommand.equals("/boardEditOk.do")) {
-      		viewpage="/WEB-INF/board/board_editok.jsp";
-      		
+      		String idx = request.getParameter("idx");
+      		try {
+      			if (idx == null || idx.strip().equals("")) {
+      	            response.sendRedirect("board_list.jsp");
+      	            return;
+      			}
+      			BoardService service = BoardService.getInBoardService();
+      			int result = service.board_Edit(request);
+      			String msg="";
+      			String url="";
+      			if(result > 0){
+      				msg="edit success";
+      				url="board_list.jsp";
+      			}else{
+      				msg="edit fail";
+      				url="board_edit.jsp?idx="+idx;
+      			}
+      			request.setAttribute("board_msg",msg);
+      			request.setAttribute("board_url",url);
+      		}catch (Exception e) {
+      			e.printStackTrace();
+      		}	
+//      		viewpage="/WEB-INF/board/board_editok.jsp";
       	}
 		
 	 
@@ -248,17 +269,18 @@ public class FrontRegisterController extends HttpServlet {
 				int result =service.board_Delete(idx, pwd);
 				if(result > 0){
 					msg="delete success";
-					System.out.println("success");
+					url="/boardList.do";
 				}else{
 					msg="delete fail";
-					System.out.println("fail");
+					url="/boardList.do";
+					// response.sendRedirect("board_list.jsp");
 				}
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
-      		msg="delete success";
+      		request.setAttribute("board_url",url);
       		request.setAttribute("board_msg", msg);
-      		viewpage = "/WEB-INF/board/board_list.jsp";
+      		viewpage = "/WEB-INF/board/redirect.jsp";
 
       	} 
 
