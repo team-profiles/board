@@ -246,17 +246,18 @@ public class FrontRegisterController extends HttpServlet {
 				int result =service.board_Delete(idx, pwd);
 				if(result > 0){
 					msg="delete success";
-					System.out.println("success");
+					url="/boardList.do";
 				}else{
 					msg="delete fail";
-					System.out.println("fail");
+					url="/boardList.do";
+					// response.sendRedirect("board_list.jsp");
 				}
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
-      		msg="delete success";
+      		request.setAttribute("board_url",url);
       		request.setAttribute("board_msg", msg);
-      		viewpage = "/WEB-INF/board/board_list.jsp";
+      		viewpage = "/WEB-INF/board/redirect.jsp";
 
       	} 
 
