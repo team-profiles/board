@@ -70,7 +70,8 @@
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
 			<!-- form 시작 -->
-			<form name="edit" action="board_editok.jsp" method="POST">
+			<!-- <form name="edit" action="board_editok.jsp" method="POST"> -->
+			<form name="edit" action="${pageContext.request.contextPath}/boardEditOk.do" method="post">
 				<center>
 					<table width="90%" border="1">
 						<tr>
