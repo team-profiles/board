@@ -123,7 +123,7 @@
 							<tr>
 								<th colspan="2">REPLY LIST</th>
 							</tr>
-					<c:forEach var="board" items="${replylist}">
+					<c:forEach var="reply" items="${replylist}">
 						<tr align="left">
 							<td width="80%">
 								[${reply.writer}] : ${reply.content}
@@ -134,7 +134,7 @@
 								</c:if>
 							</td>
 							<td width="20%">
-							<form action="boardreply_deleteOk.jsp" method="POST" name="replyDel">
+							<form action="boardreplydeleteOk.do" method="POST" name="replyDel">
 								<input type="hidden" name="no" value="${reply.no}"> 
 								<input type="hidden" name="idx" value="${idx}"> 
 								password :<input type="password" name="delPwd" size="4"> 

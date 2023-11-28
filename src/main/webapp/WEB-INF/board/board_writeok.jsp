@@ -43,10 +43,10 @@
     String url="";
     if(result > 0){
     	msg ="insert success";
-    	url ="board_list.jsp";
+    	url ="/boardList.do";
     }else{
     	msg="insert fail";
-    	url="board_write.jsp";
+    	url="/boardwrite.do";
     }
     
     request.setAttribute("board_msg",msg);

@@ -20,6 +20,7 @@ import kr.or.kosa.service.BoardDeleteOk;
 import kr.or.kosa.service.BoardEdit;
 import kr.or.kosa.service.BoardEditOk;
 import kr.or.kosa.service.BoardList;
+import kr.or.kosa.service.BoardReplyDeleteOk;
 import kr.or.kosa.service.BoardReplyOk;
 import kr.or.kosa.service.BoardRewrite;
 import kr.or.kosa.service.BoardRewriteOk;
@@ -50,17 +51,19 @@ public class FrontRegisterController extends HttpServlet {
 
     	Action action = null;
     	ActionForward forward = null;
+    	String viewpage;
 
 		if (urlcommand.equals("/boardList.do")) {
 			action = new BoardList();
     		forward = action.execute(request, response);
 
 		} else if (urlcommand.equals("/boardwrite.do")) {
-			forward = new ActionForward();
-    		forward.setRedirect(true);
-    		forward.setPath("/WEB-INF/board/board_write.jsp");
-    		
-		} else if (urlcommand.equals("/boardwriteok.do")) {
+			viewpage = "/WEB-INF/board/board_write.jsp";
+			RequestDispatcher dis = request.getRequestDispatcher(viewpage);
+			dis.forward(request, response);
+		}
+
+		 else if (urlcommand.equals("/boardwriteok.do")) {
 			action = new BoardWriteOk();
     		forward = action.execute(request, response);
     		
@@ -100,7 +103,13 @@ public class FrontRegisterController extends HttpServlet {
     		forward = action.execute(request, response);
 
 		} else if (urlcommand.equals("/boardReplyOk.do")) {
+
 			action = new BoardReplyOk();
+    		forward = action.execute(request, response);
+    		
+		}
+		else if (urlcommand.equals("/boardreplydeleteOk.do")) {
+			action = new BoardReplyDeleteOk();
     		forward = action.execute(request, response);
 		}
 
@@ -112,9 +121,6 @@ public class FrontRegisterController extends HttpServlet {
 	      	    	dis.forward(request, response);
     			}
     		}
-    	
-
-		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
