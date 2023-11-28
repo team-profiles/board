@@ -113,21 +113,15 @@ public class FrontRegisterController extends HttpServlet {
 
 			viewpage = "/WEB-INF/board/board_list.jsp";
 
-		}
-
-		else if (urlcommand.equals("/boardContent.do")) {
+		}else if (urlcommand.equals("/boardContent.do")) {
 
 		} else if (urlcommand.equals("/boardEdit.do")) {
 
-		}
-
-		else if (urlcommand.equals("/boardDelete.do")) {
+		}else if (urlcommand.equals("/boardDelete.do")) {
 
 		} else if (urlcommand.equals("/boardRewrite.do")) {
 
-		}
-
-		else if (urlcommand.equals("/boardRewriteOk.do")) {
+		}else if (urlcommand.equals("/boardRewriteOk.do")) {
 //      		BoardService service = BoardService.getInBoardService();
 //      		int result = service.rewriteok(board);
 //      		
@@ -147,9 +141,7 @@ public class FrontRegisterController extends HttpServlet {
 //      	    
 //      	    request.setAttribute("board_msg",msg);
 //      	    request.setAttribute("board_url", url);
-		}
-
-		else if (urlcommand.equals("boardRewriteEdit.do")) {
+		} else if (urlcommand.equals("boardRewriteEdit.do")) {
 
 		} else if (urlcommand.equals("/boardwrite.do")) {
 			viewpage = "/WEB-INF/board/board_write.jsp";
@@ -179,8 +171,6 @@ public class FrontRegisterController extends HttpServlet {
 
 		RequestDispatcher dis = request.getRequestDispatcher(viewpage);
 		// 데이터 전달(forward)
-		dis = request.getRequestDispatcher(viewpage);
-
 		dis.forward(request, response);
 	}
 
