@@ -95,16 +95,13 @@
 				</form>
 				<!-- 유효성 체크	 -->
 <script type="text/javascript">
-function windowonload(null,) {
-	fetch_reply();
-}
-
-
-    function fetch_reply(data,url) {
+	window.onload = fetch_reply();
+	
+    function fetch_reply() {
         $.ajax({
-            url: "${pageContext.request.contextPath}/"+url+".fetch",
+            url: "${pageContext.request.contextPath}/boardReply.fetch",
             type: "get",
-            data: data,
+            data: {'idx': document.getElementsByName('idx')[0].value},
             dataType: "json",
             success: function(data) {
                 // Clear the existing data
@@ -116,7 +113,7 @@ function windowonload(null,) {
                 });
             },
             error: function(xhr) {
-                console.log(xhr);
+                alert("데이터 로딩 실패");
             }
         });
     };
@@ -184,33 +181,67 @@ function windowonload(null,) {
             return false;
         }
         
-        const form_data = { 
+        $.ajax({
+            url: "${pageContext.request.contextPath}/boardInsert.fetch",
+            type: "get",
+            data: { 
                 'idx': document.getElementsByName('idx')[0].value,
                 'userid': document.getElementsByName('userid')[0].value,
                 'reply_writer': document.getElementsByName('reply_writer')[0].value,
                 'reply_content': document.getElementsByName('reply_content')[0].value,
-                'reply_pwd': document.getElementsByName('reply_pwd')[0].value,
-                'cp': "${cpage}",
-                'ps':"${pagesize}"
-            };
-        const url = "boardReplyOk";
-        fetch_reply(form_data,url);
+                'reply_pwd': document.getElementsByName('reply_pwd')[0].value
+            },
+            success: function(data) {
+                // Clear the existing data
+                console.log(data);
+                fetch_reply();
+                
+            },
+            error: function(xhr) {
+                alert("데이터 로딩 실패");
+                console.log(xhr);
+            }
+        });
+       
+       
     };
 
     
-    function reply_del(frm, no) {
-        if (frm.delPwd.value == "") {
-            alert("비밀번호를 입력하세요");
-            
-            return false;
-        }
+    function reply_del(frm) {
+	    if (frm.delPwd.value === "") {
+	        alert("비밀번호를 입력하세요");
+	        frm.delPwd.focus();
+	        return false;
+	    }
 
-        const form_data = {
-            'no': no,
-            // add other necessary data
-        };
-        console.log(frm.del.onClick());
-    }
+	    // Ajax를 사용해 서블릿에 요청 보내기
+	    $.ajax({
+	        url: "${pageContext.request.contextPath}/boardDelete.fetch",
+	        type: "POST",
+	        data: {
+	            no: frm.no.value,
+	            delPwd: frm.delPwd.value
+	        },
+	        success: function(response) {
+	            if (response === "success") {
+	                alert("댓글 삭제 성공");
+	                console.log(response);
+	                fetch_reply();
+	                // 여기서 삭제 후의 동작을 수행할 수 있어요
+	            } else {
+	                alert("댓글 삭제 실패");
+	            }
+	            
+	        },
+	        error: function(xhr) {
+	            console.log(xhr);
+	            alert("댓글 삭제 중 오류가 발생했습니다.");
+	        }
+	    });
+	   
+	    // 폼 전송을 막기 위해 false 반환
+	    return false;
+	}
 </script>
 
 				<br>
@@ -223,7 +254,6 @@ function windowonload(null,) {
 								<th colspan="2">REPLY LIST</th>
 							</tr>
 							<tbody id="replyBody">
-							
 
 							</tbody>
 					
