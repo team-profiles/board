@@ -12,7 +12,7 @@
 
   //방법 3) request 객체를 통으로 넘기는 방법 (이 방법) >> 실습코드 ...
   
-  request.setCharacterEncoding("UTF-8");
+  /* request.setCharacterEncoding("UTF-8");
   String idx = request.getParameter("idx");
   
   if(idx == null || idx.trim().equals("")){
@@ -35,7 +35,7 @@
 	}
 	
 	request.setAttribute("board_msg",msg);
-	request.setAttribute("board_url",url);
+	request.setAttribute("board_url",url); */
 
 %>
 <%-- <jsp:forward page="redirect.jsp"></jsp:forward> --%>
