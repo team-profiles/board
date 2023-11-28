@@ -103,14 +103,48 @@ public class FrontRegisterController extends HttpServlet {
 
 		else if (urlcommand.equals("/boardwriteok.do")) {
 
-			String resultData = "";
-			resultData = "게시글이 성공적으로 작성되었습니다.";
-			viewpage = "/WEB-INF/board/board_writeok.jsp";
+			String writer = request.getParameter("writer");
+			String pwd = request.getParameter("pwd");
+			String subject = request.getParameter("subject");
+			String content = request.getParameter("content");
+			String filename = request.getParameter("filename");
+			String homepage = request.getParameter("homepage");
+			String email = request.getParameter("email");
 
-			request.setAttribute("data", resultData);
+			Board board = new Board();
 
-			RequestDispatcher dis = request.getRequestDispatcher(viewpage);
-			dis.forward(request, response);
+			BoardService service = BoardService.getInBoardService();
+
+			board.setWriter(writer);
+			board.setPwd(pwd);
+			board.setSubject(subject);
+			board.setContent(content);
+			board.setFilename(filename);
+			board.setHomepage(homepage);
+			board.setEmail(email);
+
+			try {
+				int result = service.writeOk(board);
+				String msg = "";
+				String url = "";
+				if (result > 0) {
+					msg = "write insert success";
+					url = "/boardList.do";
+				} else {
+					msg = "write insert fail";
+					url = "/boardList.do";
+
+				}
+
+				request.setAttribute("board_msg", msg);
+				request.setAttribute("board_url", url);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			viewpage = "/WEB-INF/board/redirect.jsp";
 
 		}
 
