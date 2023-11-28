@@ -1,7 +1,9 @@
 package kr.or.kosa.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,14 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.or.kosa.action.Action;
 import kr.or.kosa.action.ActionForward;
+import kr.or.kosa.dto.Reply;
+import kr.or.kosa.service.BoardReplyOk;
+import kr.or.kosa.service.BoardService;
 
 /**
  * Servlet implementation class FetchRegisterController
  */
-@WebServlet("/fetch")
+@WebServlet("/boardReplyOk.do")
 public class FetchController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
 
     public FetchController() {
         super();
@@ -26,28 +30,31 @@ public class FetchController extends HttpServlet {
 
     private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
-       	Action action = null;
-    	RequestDispatcher dis = null;
+    	boolean check = false;
 
+    	BoardService service = BoardService.getInBoardService();
+    	String idx = request.getParameter("idx");
 
-
-    	String command = request.getParameter("cmd"); 
-    	System.out.println(command);
-
-    	if(command.equals("fetchOk")) {
-
-
-    	}else {
-    		
+    	int result = service.replyWrite(0, idx, idx, idx, idx);
+    	if(result) {
+    		check = true;
     	}
-//		request.setAttribute("memolist", memolist);
-		// view 페이지 지정
-//		dis = request.getRequestDispatcher("/memolist.jsp");
+    	if(result) {
+    		try {
+				List<Reply> replylist = service.replyList(idx);
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	
-		dis.forward(request, response);
+    	
+    	String jsonResponse = "{\"check\": " + check + "}";
+        response.setContentType("application/json");
+        
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
 
-    	
-    	
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
