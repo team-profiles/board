@@ -51,19 +51,17 @@ public class FrontRegisterController extends HttpServlet {
 
     	Action action = null;
     	ActionForward forward = null;
-    	String viewpage;
 
 		if (urlcommand.equals("/boardList.do")) {
 			action = new BoardList();
     		forward = action.execute(request, response);
 
 		} else if (urlcommand.equals("/boardwrite.do")) {
-			viewpage = "/WEB-INF/board/board_write.jsp";
-			RequestDispatcher dis = request.getRequestDispatcher(viewpage);
-			dis.forward(request, response);
-		}
-
-		 else if (urlcommand.equals("/boardwriteok.do")) {
+			forward = new ActionForward();
+    		forward.setRedirect(false);
+    		forward.setPath("/WEB-INF/board/board_write.jsp");
+    		
+		} else if (urlcommand.equals("/boardwriteok.do")) {
 			action = new BoardWriteOk();
     		forward = action.execute(request, response);
     		
@@ -83,7 +81,7 @@ public class FrontRegisterController extends HttpServlet {
 
 		else if (urlcommand.equals("/boardDelete.do")) {
 			forward = new ActionForward();
-    		forward.setRedirect(true);
+    		forward.setRedirect(false);
     		forward.setPath("/WEB-INF/board/board_delete.jsp");
 		}
 
@@ -121,6 +119,9 @@ public class FrontRegisterController extends HttpServlet {
 	      	    	dis.forward(request, response);
     			}
     		}
+    	
+
+		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

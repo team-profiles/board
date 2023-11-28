@@ -33,7 +33,6 @@ public class BoardContent implements Action{
 			String cpage = request.getParameter("cp"); // current page
 			String pagesize = request.getParameter("ps"); // pagesize
 
-			
 			// List 페이지 처음 호출 ...
 			if (cpage == null || cpage.trim().equals("")) {
 				// default 값 설정
