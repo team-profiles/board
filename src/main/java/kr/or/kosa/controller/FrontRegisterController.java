@@ -222,10 +222,37 @@ public class FrontRegisterController extends HttpServlet {
     		viewpage="/WEB-INF/board/board_content.jsp";
     		
     	} 
-		
+				
     	else if (urlcommand.equals("/boardEdit.do")) {
+    		String idx = request.getParameter("idx");
+    		BoardService service = null;
+    		Board board = null;
+    		String url = "/WEB-INF/board/board_edit.jsp";
+    		
+    		try {
+    			if(idx == null || idx.trim().equals("")){
+//    				response.sendRedirect("board_list.jsp"); //cpage=1 , ps=5
+    				url = "/WEB-INF/board/board_list.jsp";
+    				return;
+    			}
+    			service = BoardService.getInBoardService();
+    			board = service.board_EditContent(idx);
+    			if(board == null){
+    				url = "/WEB-INF/board/board_list.jsp";
+//    				response.sendRedirect("board_list.jsp");
+//    				out.print("데이터 오류");
+//    				out.print("<hr><a href='board_list.jsp'>목록가지</a>");
+//    				return;
+    			}
+    		} catch (Exception e){
+    			e.printStackTrace();
+    		}
+    		request.setAttribute("board", board);
       		viewpage="/WEB-INF/board/board_edit.jsp";
     	}
+		
+		
+		
 		
       	else if (urlcommand.equals("/boardEditOk.do")) {
       		String idx = request.getParameter("idx");
