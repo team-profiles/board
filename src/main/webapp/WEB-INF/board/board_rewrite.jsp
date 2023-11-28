@@ -1,24 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	request.setCharacterEncoding("utf-8");
-	String idx = request.getParameter("idx");
-	String cpage = request.getParameter("cp");
-	String pagesize = request.getParameter("ps");
-	String subject = request.getParameter("subject"); // 답글의 제목으로 사용
-	
-	if(idx == null || subject == null || idx.trim().equals("") || subject.trim().equals("")){
-		response.sendRedirect("board_list.jsp");
-		return;
-	}
-	if(cpage == null || pagesize == null){
-		cpage ="1";
-		pagesize = "5";
-	}
-	
-
-%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -59,20 +41,26 @@
 	<%
 		pageContext.include("/include/header.jsp");
 	%>
+	
+	<c:set var="idx" value="${idx}" />
+	<c:set var="subject" value="${subject}" />
+	<c:set var="cpage" value="${cpage}" />
+	<c:set var="pagesize" value="${pagesize}" />
+	
 	<div id="pageContainer">
 		<div style="padding-top: 25px; text-align: center">
-			<form name="bbs" action="/boardRewriteOk.do" method="POST">
+			<form name="bbs" action="${pageContext.request.contextPath}/boardRewriteOk.do" method="POST">
 			
-				<input type="hidden" name="cp" value="<%= cpage %>" /> 
-				<input type="hidden" name="ps" value="<%= pagesize %>" /> 
-				<input type="hidden" name="idx" value="<%= idx %>" />
+				<input type="hidden" name="cp" value="${cpage}" /> 
+				<input type="hidden" name="ps" value="${pagesize}" /> 
+				<input type="hidden" name="idx" value="${idx}" />
 			
 
 				<table width="95%" border="2" align="center">
 					<tr>
 						<td width="20%" align="center">제목</td>
 						<td width="80%" align="left">
-							<input type="text" name="subject" size="40" value="[RE]<%= subject%>">
+							<input type="text" name="subject" size="40" value="[RE]${subject}">
 						</td>
 
 					</tr>
@@ -117,7 +105,7 @@
 						<td colspan="2" align="center">
 						<input type="button" 	value="글쓰기" onclick="boardcheck();" /> 
 						<input type="reset" 	value="다시쓰기" />
-						<a href="/boardList.do">HOME</a>
+						<a href="${pageContext.request.contextPath}/boardList.do">HOME</a>
 						</td>
 						
 					</tr>

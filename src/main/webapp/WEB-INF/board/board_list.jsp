@@ -137,7 +137,7 @@
 				<tr>
 					<td colspan="5" align="center">
 					
-				<c:if test="${pagersize eq 3}">
+				<c:if test="${pagersize == 3}">
 					<tr><td colspan='5'>데이터가 없습니다</td></tr>
 				</c:if>
 					${pagerToString}
