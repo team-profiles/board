@@ -357,6 +357,8 @@ public class FrontRegisterController extends HttpServlet {
       		viewpage="/WEB-INF/board/redirect.jsp";
 
       		
+		} else if (urlcommand.equals("/boardRewriteEdit.do")) {
+			
 		} else if (urlcommand.equals("/boardReplyOk.do")) {
 			
 		    // 데이터 받기
@@ -395,6 +397,7 @@ public class FrontRegisterController extends HttpServlet {
 		   
 		    viewpage = "/WEB-INF/board/redirect.jsp";
 		}
+
 //     	if(forward != null) {
 //    		if(forward.isRedirect()) { // true // location.href="" 새로운 페이지 처리
 //    			response.sendRedirect(forward.getPath());

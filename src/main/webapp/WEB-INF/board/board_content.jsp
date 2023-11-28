@@ -68,7 +68,7 @@
 					</tr>
 				</table>
 				<!--  꼬리글 달기 테이블 -->
-				<form name="reply" action="board_replyok.jsp" method="POST">
+				<form name="reply" action="${pageContext.request.contextPath}/boardReplyOk.do" method="POST">
 						<!-- hidden 태그  값을 숨겨서 처리  -->
 						<input type="hidden" name="idx" value="${idx}"> 
 						<input type="hidden" name="userid" value=""><!-- 추후 필요에 따라  -->
