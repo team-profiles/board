@@ -49,9 +49,6 @@ public class BoardReplyOk implements Action {
 
             }
 
-            // Set the redirect URL based on the result
-            //url = "/boardContent.do?idx=" + idx_fk + "&cp=" + cp + "&ps=" + ps;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
