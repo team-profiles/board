@@ -243,7 +243,7 @@ public class FrontRegisterController extends HttpServlet {
 				int result =service.board_Delete(idx, pwd);
 				if(result > 0){
 					msg="delete success";
-					System.out.println("success");
+
 				}else{
 					msg="delete fail";
 					System.out.println("fail");
