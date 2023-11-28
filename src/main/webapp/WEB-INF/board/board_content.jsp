@@ -18,11 +18,7 @@
 	href="style/default.css" />
 </head>
 <body>
-	<c:set var="idx" value="${idx}" />
-	<c:set var="board" value="${board}" />
-	<c:set var="cpage" value="${cpage}" />
-	<c:set var="pagesize" value="${pagesize}" />
-	
+
 	<%
 		pageContext.include("/include/header.jsp");
 	%>
@@ -56,10 +52,10 @@
 					<tr height="100">
 						<td width="20%" align="center"><b>글내용</b></td>
 						<td colspan="3">
-						<!-- 내용 추가해서 수정 필요 - 현재 삭제 되어 있는 상태-->
-						
+						<c:if test="${board.content != null}">
+							${fn:replace(board.content, '\\n', '<br>')}
+						</c:if>
 						${board.content}
-
 						</td>
 					</tr>
 					<tr>

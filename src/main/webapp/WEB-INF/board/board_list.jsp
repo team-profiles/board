@@ -19,10 +19,6 @@
 	<c:import url="/include/header.jsp" />
 	게시판 목록
 	<br>
-
-	<c:set var="pagesize" value="${pagesize}" />
-	<c:set var="cpage" value="${cpage}" />
-	<c:set var="pagecount" value="${pagecount}" />
 	
 	<div id="pagecontainer">
 		<div style="padding-top: 30px; text-align: cetner">
@@ -62,7 +58,7 @@
 				</tr>
 				<!-- 데이터가 한건도 없는 경우  -->
 				
-				<c:if test="${list eq null || listSize eq 0}">
+				<c:if test="${list == null || listSize == 0}">
 					<tr><td colspan='5'>데이터가 없습니다</td></tr>
 				</c:if>
 
@@ -136,12 +132,9 @@
 				</tr>
 				<tr>
 					<td colspan="5" align="center">
-					
-				<c:if test="${pagersize == 3}">
-					<tr><td colspan='5'>데이터가 없습니다</td></tr>
-				</c:if>
 					${pagerToString}
 					</td>
+					</tr>
 			</table>
 		</div>
 	</div>
